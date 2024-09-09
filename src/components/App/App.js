@@ -1,15 +1,30 @@
 import './App.css';
 import React from 'react';
 
-import ApiCalls from '../ApiCalls/ApiCalls';
+import { useState, useEffect } from 'react';
+
+import { fetchTricks } from '../ApiCalls/ApiCalls';
 import TrickCards from '../TrickCards/TrickCards';
 
 
 
 function App() {
-  const apiTricks = ApiCalls()
+  // useState
+  // useEffect
+  // const apiTricks = ApiCalls()
 
-  console.log(apiTricks, '<-- FROM API')
+  const [ tricks, setTricks ] = useState([])
+
+  useEffect(() => {
+    fetchTricks()
+      .then(data => {
+        setTricks(data)
+        console.log(data, '<-- DATA')
+      })
+      .catch(err => console.error(err));
+  }, [])
+
+  console.log(tricks, '<-- FROM API')
 
 
 
@@ -17,7 +32,7 @@ function App() {
     <div className="App">
       <h1>Sick Trick Wish List</h1>
       <div className="trick-cards-container">
-        <TrickCards />
+        <TrickCards apiTricks={ tricks }/>
       </div>
     </div>
   );
